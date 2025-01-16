@@ -20,7 +20,7 @@ export default function Header({types}: HeaderProps) {
         </div>
       </div>
 
-      <SearchBar />
+      <SearchBar types={types} />
       
       <div className='tabs is-boxed is-scrollbar'>
         <ul>

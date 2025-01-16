@@ -1,12 +1,19 @@
-export default function SearchBar() {
+import { IType } from "../../@types"
+
+interface SearchBarProps {
+  types: IType[]
+}
+
+export default function SearchBar({types}: SearchBarProps) {
   return (
     <div className='is-flex is-justify-content-center mb-6'>
       <form className='is-flex is-justify-content-center form'>
         <div className='select'>
           <select name="type" id="search-select">
             <option value="">Tous les types</option>
-            <option value="">Eau</option>
-            <option value="">Feu</option>
+            {types.map(type => 
+              <option value={type.name} key={type.name}>{type.name}</option>
+            )}
           </select>
         </div>
     
