@@ -26,7 +26,11 @@ export default function Header({types}: HeaderProps) {
         <ul>
           <li className='is-active'><a href="">Tous les types</a></li>
           {types.map(type => 
-            <li key={type.name}><a href="#">{type.name.toUpperCase()}</a></li>
+            <li key={type.name}>
+              <a href="#">
+                {type.name.charAt(0).toUpperCase() + type.name.slice(1).toLowerCase()}
+              </a>
+            </li>
           )}
         </ul>
       </div>

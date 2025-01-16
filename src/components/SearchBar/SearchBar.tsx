@@ -12,7 +12,9 @@ export default function SearchBar({types}: SearchBarProps) {
           <select name="type" id="search-select">
             <option value="">Tous les types</option>
             {types.map(type => 
-              <option value={type.name} key={type.name}>{type.name}</option>
+              <option value={type.name} key={type.name}>
+                {type.name.charAt(0).toUpperCase() + type.name.slice(1).toLowerCase()}
+              </option>
             )}
           </select>
         </div>
