@@ -11,7 +11,10 @@ export default function TypePage() {
   useEffect(() => {
     const getTypeWithPokemons = async () => {
       const { data } = await axios.get(`https://pokeapi.co/api/v2/type/${id}`)
-      setTypeWithPokemons(data.pokemon)
+      setTypeWithPokemons({
+        name: data.name,
+        pokemon: data.pokemon
+      });
     }
 
     getTypeWithPokemons()
@@ -20,12 +23,18 @@ export default function TypePage() {
 
   return (
     <>
-      <h1>Type Normal</h1>
-
+      <h1 className="title">{typeWithPokemons?.pokemon.length} pokémons</h1>
       <ul>
-        
+        {typeWithPokemons?.pokemon.map(pokemon  => 
+          <li key={pokemon.pokemon.name}>
+            <article className="card">
+              <p className="card-content">
+                {pokemon.pokemon.name.charAt(0).toUpperCase() + pokemon.pokemon.name.slice(1).toLowerCase()}
+              </p>
+            </article>
+          </li>
+        )}
       </ul>
-    
     </>
   )
 }
