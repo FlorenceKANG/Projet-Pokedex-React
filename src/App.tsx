@@ -5,6 +5,8 @@ import Header from './components/Header/Header'
 import { useEffect, useState } from 'react'
 import { IType } from './@types'
 import HomePage from './pages/HomePage'
+import { Routes, Route } from 'react-router';
+import TypePage from './pages/TypePage'
 
 function App() {
   const [types, setTypes] = useState<IType[]>([])
@@ -23,7 +25,10 @@ function App() {
       <Header types={types} />
         
       <main>
-        <HomePage />
+        <Routes>
+          <Route path='/' element={ <HomePage /> } />
+          <Route path='/type/:id' element={ <TypePage /> } />
+        </Routes>
       </main>
 
       <Footer />
