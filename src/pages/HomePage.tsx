@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { IPokemonList } from "../@types"
 import axios from "axios"
 import Pagination from "../components/Pagination/Pagination"
+import PokemonCard from "../components/PokemonCard/PokemonCard"
 
 export default function HomePage() {
   const [pokemonsList, setPokemonsList] = useState<IPokemonList[]>([])
@@ -40,21 +41,10 @@ export default function HomePage() {
 
         {pokemonsList.map(pokemon => 
           <li key={pokemon.name}>
-            <article className='card'>
-              <div className="card-image">
-                <figure className="image is-4by3">
-                  <img src={pokemon.image} alt={`Illustration de ${pokemon.name}`}/>
-                </figure>
-              </div>
-              <div className="card-content">
-                <p className='content'>
-                  {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1).toLowerCase()}
-                </p>
-              </div>
-            </article>
+            <PokemonCard pokemon={pokemon}/>
           </li>
         )}
-        
+
       </ul>
       
       <Pagination setCurrentUrl={setCurrentUrl} previousUrl={previousUrl} nextUrl={nextUrl} />
