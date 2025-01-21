@@ -23,7 +23,7 @@ export default function HomePage() {
           const pokemonData = await axios.get(pokemon.url); // Appel sur l'url pour obtenir le détail d'un pokémon
           return {
             ...pokemon,
-            image: pokemonData.data.sprites.other.dream_world.front_default, // Ajouter l'url de l'image 
+            image: pokemonData.data.sprites.other.dream_world.front_default || pokemonData.data.sprites.front_default, // Ajouter l'url de l'image 
           };
         })
       );
@@ -37,6 +37,7 @@ export default function HomePage() {
   return (
     <>
       <ul className="grid">
+
         {pokemonsList.map(pokemon => 
           <li key={pokemon.name}>
             <article className='card'>
@@ -53,6 +54,7 @@ export default function HomePage() {
             </article>
           </li>
         )}
+        
       </ul>
       
       <Pagination setCurrentUrl={setCurrentUrl} previousUrl={previousUrl} nextUrl={nextUrl} />
