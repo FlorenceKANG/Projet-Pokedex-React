@@ -20,6 +20,7 @@ export default function Header({types}: HeaderProps) {
         <Link to={'/'}>
           <h1 className='title is-1'>Pokedex</h1>
         </Link>
+        
         <div className='is-flex is-justify-content-end'>
           <nav className='buttons'>
             <a href="#">Sign up</a>

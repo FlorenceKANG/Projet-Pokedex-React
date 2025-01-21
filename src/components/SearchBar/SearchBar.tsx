@@ -8,6 +8,7 @@ export default function SearchBar({types}: SearchBarProps) {
   return (
     <div className='is-flex is-justify-content-center mb-6'>
       <form className='is-flex is-justify-content-center form'>
+        
         <div className='select'>
           <select name="type" id="search-select">
             <option value="">Tous les types</option>

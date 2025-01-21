@@ -8,24 +8,29 @@ export default function Pagination({setCurrentUrl, previousUrl, nextUrl}: Pagina
   return (
     <div className='container my-6'>
       <div className="pagination is-centered">
-        <button 
-          className="pagination-previous"
-          onClick={() => {
-            setCurrentUrl(previousUrl)
-          }}
-        >
-          Previous
-        </button>
+        {previousUrl && 
+          <button 
+            className="pagination-previous"
+            onClick={() => {
+              setCurrentUrl(previousUrl)
+            }}
+          >
+            Previous
+          </button>
+        }
 
-        <button 
-          className="pagination-next"
-          onClick={() => {
-            setCurrentUrl(nextUrl)
-          }}
-        >
-          Next page
-        </button>
+        {nextUrl && 
+          <button 
+            className="pagination-next"
+            onClick={() => {
+              setCurrentUrl(nextUrl)
+            }}
+          >
+            Next page
+          </button>
+        }
 
+        {/* // TODO: Dynamiser les nombres de pages */}
         <ul className="pagination-list">
           <li><button className="pagination-link is-current">1</button></li>
           <li><button className="pagination-link">2</button></li>

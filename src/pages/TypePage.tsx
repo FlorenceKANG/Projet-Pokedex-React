@@ -24,7 +24,7 @@ export default function TypePage() {
   return (
     <>
       <h1 className="title">{typeWithPokemons?.pokemon.length} pokémons</h1>
-      <ul>
+      <ul className="grid is-5">
         {typeWithPokemons?.pokemon.map(pokemon  => 
           <li key={pokemon.pokemon.name}>
             <article className="card">
