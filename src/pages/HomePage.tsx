@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
-import { IPokemonList } from "../@types";
 import api from "../services/api";
 import Pagination from "../components/Pagination/Pagination";
 import PokemonCard from "../components/PokemonCard/PokemonCard";
+import { IPokemonList } from "../@types";
 
-export default function HomePage() {
-  // Variable d'état qui stock les pokémons
-  const [pokemonsList, setPokemonsList] = useState<IPokemonList[]>([]);
+interface HomePageProps {
+  pokemonsList: IPokemonList[];
+  setPokemonsList: (pokemonsList: IPokemonList[]) => void;
+  count: number;
+  setCount: (count: number) => void;
+}
 
+export default function HomePage({
+  pokemonsList,
+  setPokemonsList,
+  count,
+  setCount,
+}: HomePageProps) {
   // Variable d'état qui stock l'URL actuel
   const [currentUrl, setCurrentUrl] = useState(
     `https://pokeapi.co/api/v2/pokemon?limit=50`
@@ -18,9 +27,6 @@ export default function HomePage() {
 
   // Variable d'état qui stock l'URL précédent
   const [previousUrl, setPreviousUrl] = useState(currentUrl);
-
-  // Variable d'état qui stock le nombre total de pokémons
-  const [count, setCount] = useState(0);
 
   // Variable d'état qui stock le numéro de la page actuel
   const [currentPage, setCurrentPage] = useState(1);
