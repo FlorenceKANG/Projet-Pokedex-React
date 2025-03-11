@@ -26,9 +26,15 @@ export default function TypePage() {
           const pokemonDetails = await axios.get(pokemon.url);
           return {
             ...pokemon,
+            id: pokemonDetails.data.id, // l'ID du pokemon
             image:
+              pokemonDetails.data.sprites.other.home.front_default ||
               pokemonDetails.data.sprites.other.dream_world.front_default ||
-              pokemonDetails.data.sprites.front_default,
+              pokemonDetails.data.sprites.front_default, // Ajouter l'url de l'image
+            types: pokemonDetails.data.types, // Ajouter les types du pokemon
+            stats: pokemonDetails.data.stats, // Ajouter les valeurs statistiques du pokemon
+            height: pokemonDetails.data.height, // Ajouter la taille du pokemon
+            weight: pokemonDetails.data.weight, // Ajouter le poids du pokemon
           };
         })
       );

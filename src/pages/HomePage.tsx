@@ -47,9 +47,15 @@ export default function HomePage() {
           const pokemonData = await axios.get(pokemon.url); // Appel sur l'url pour obtenir le détail d'un pokémon
           return {
             ...pokemon,
+            id: pokemonData.data.id, // l'ID du pokemon
             image:
+              pokemonData.data.sprites.other.home.front_default ||
               pokemonData.data.sprites.other.dream_world.front_default ||
               pokemonData.data.sprites.front_default, // Ajouter l'url de l'image
+            types: pokemonData.data.types, // Ajouter les types du pokemon
+            stats: pokemonData.data.stats, // Ajouter les valeurs statistiques du pokemon
+            height: pokemonData.data.height, // Ajouter la taille du pokemon
+            weight: pokemonData.data.weight, // Ajouter le poids du pokemon
           };
         })
       );
