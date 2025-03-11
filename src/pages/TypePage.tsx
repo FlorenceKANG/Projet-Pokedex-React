@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ITypeWithPokemons } from "../@types";
-import axios from "axios";
-import { IPokemon } from "../@types/index.d";
 import PokemonCard from "../components/PokemonCard/PokemonCard";
+import api from "../services/api";
 
 export default function TypePage() {
-  // Récupérer l'ID dans les params
+  // Récupérer l'ID du type dans les params
   const { id } = useParams();
 
   // Variable d'état qui stock les pokémons du 'type' correspondant
@@ -15,38 +14,23 @@ export default function TypePage() {
 
   // Récupérer les pokémons d'un type par appel API au chargement de la page
   useEffect(() => {
-    // Appel API pour récupérer les pokémons d'un type [damage_relations: {}, game_indices: [{}], generation: {}, id, move_damage_class: {}, moves: {}, name, names: {}, past_damage_relations, pokemon: [{},{},{}], sprites: {}]
-    const getTypeWithPokemons = async () => {
-      const { data } = await axios.get(`https://pokeapi.co/api/v2/type/${id}`);
-
-      // Récupérer le détail d'un pokémon
-      // Promise.all => méthode qui permet d'exécuter plusieurs promesses en parallèle et d'attendre qu'elles soient toutes résolues avant de continuer
-      const detailedPokemons = await Promise.all(
-        data.pokemon.map(async ({ pokemon }: { pokemon: IPokemon }) => {
-          const pokemonDetails = await axios.get(pokemon.url);
-          return {
-            ...pokemon,
-            id: pokemonDetails.data.id, // l'ID du pokemon
-            image:
-              pokemonDetails.data.sprites.other.home.front_default ||
-              pokemonDetails.data.sprites.other.dream_world.front_default ||
-              pokemonDetails.data.sprites.front_default, // Ajouter l'url de l'image
-            types: pokemonDetails.data.types, // Ajouter les types du pokemon
-            stats: pokemonDetails.data.stats, // Ajouter les valeurs statistiques du pokemon
-            height: pokemonDetails.data.height, // Ajouter la taille du pokemon
-            weight: pokemonDetails.data.weight, // Ajouter le poids du pokemon
-          };
-        })
-      );
-
-      setTypeWithPokemons({
-        name: data.name,
-        pokemon: detailedPokemons.map((pokemon) => ({ pokemon })) as any,
-      });
-    };
-
-    getTypeWithPokemons();
+    if (id) {
+      getPokemonsByTypeWithDetails(id);
+    }
   }, [id]);
+
+  // Fonction pour récupérer les pokémons par type
+  async function getPokemonsByTypeWithDetails(id: string) {
+    // Appel API pour récupérer les pokémons d'un type [damage_relations: {}, game_indices: [{}], generation: {}, id, move_damage_class: {}, moves: {}, name, names: {}, past_damage_relations, pokemon: [{},{},{}], sprites: {}]
+    const pokemonsList = await api.getPokemonsByType(id);
+
+    // Récupérer le détail d'un pokémon
+    const detailedPokemons = await api.getPokemonDetailsbyType(pokemonsList);
+    setTypeWithPokemons({
+      name: pokemonsList.name,
+      pokemon: detailedPokemons.map((pokemon) => ({ pokemon })) as any,
+    });
+  }
 
   return (
     <>

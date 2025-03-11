@@ -45,7 +45,7 @@ export default function Header({ types }: HeaderProps) {
             className={activeIndex === -1 ? "is-active" : ""}
             onClick={() => handleIsActive(-1)}
           >
-            <Link to="/">Tous les types</Link>
+            <Link to="/">All types</Link>
           </li>
 
           {types.map((type, index) => (
@@ -54,9 +54,8 @@ export default function Header({ types }: HeaderProps) {
               className={activeIndex === index ? "is-active" : ""}
               onClick={() => handleIsActive(index)}
             >
-              <Link to={`/type/${type.name}`}>
-                {type.name.charAt(0).toUpperCase() +
-                  type.name.slice(1).toLowerCase()}
+              <Link to={`/type/${type.name}`} className="is-capitalized">
+                {type.name}
               </Link>
             </li>
           ))}

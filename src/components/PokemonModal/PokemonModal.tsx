@@ -23,9 +23,8 @@ export default function PokemonModal({
         <div className="modal-card">
           {/* En tête du modal */}
           <header className="modal-card-head is-align-items-center">
-            <h2 className="modal-card-title is-size-3 has-text-weight-bold">
-              {pokemon.name.charAt(0).toUpperCase() +
-                pokemon.name.slice(1).toLowerCase()}
+            <h2 className="modal-card-title is-size-3 has-text-weight-bold is-capitalized">
+              {pokemon.name}
             </h2>
             <button
               className="delete"
@@ -53,7 +52,7 @@ export default function PokemonModal({
                   {pokemon.types?.map((type) => (
                     <span
                       key={type.slot}
-                      className="tag is-rounded is-medium is-hoverable is-capitalized"
+                      className="tag is-info is-medium is-hoverable is-capitalized"
                     >
                       {type.type.name}
                     </span>

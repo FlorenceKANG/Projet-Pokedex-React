@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "./services/api";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
@@ -12,15 +12,17 @@ function App() {
   // Variable d'état qui stock tous les 'types' de pokémons
   const [types, setTypes] = useState<IType[]>([]);
 
-  // Récupéré les types par appel API au chargement de la page
+  // Récupérer les types par appel API au chargement de la page
   useEffect(() => {
-    const getTypes = async () => {
-      const { data } = await axios.get("https://pokeapi.co/api/v2/type");
-      setTypes(data.results);
-    };
-
     getTypes();
   }, []);
+
+  // Fonction pour récupérer toutes les types
+  async function getTypes() {
+    // Appel API : ...results: {name, url}
+    const results = await api.getTypes();
+    setTypes(results);
+  }
 
   return (
     <>

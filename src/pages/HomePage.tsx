@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IPokemonList } from "../@types";
-import axios from "axios";
+import api from "../services/api";
 import Pagination from "../components/Pagination/Pagination";
 import PokemonCard from "../components/PokemonCard/PokemonCard";
 
@@ -33,38 +33,21 @@ export default function HomePage() {
 
   // Selon currentUrl, récupérer les pokémons correspondants
   useEffect(() => {
-    // Appel API pour récupérer la liste des pokémons [count, next, previous, results: { name, url }]
-    const getPokemonsList = async () => {
-      const { data } = await axios.get(currentUrl);
-      setCount(data.count);
-      setNextUrl(data.next);
-      setPreviousUrl(data.previous);
-
-      // Récupérer le détail pour chaque pokémon
-      // Promise.all => méthode qui permet d'exécuter plusieurs promesses en parallèle et d'attendre qu'elles soient toutes résolues avant de continuer
-      const detailedPokemons = await Promise.all(
-        data.results.map(async (pokemon: IPokemonList) => {
-          const pokemonData = await axios.get(pokemon.url); // Appel sur l'url pour obtenir le détail d'un pokémon
-          return {
-            ...pokemon,
-            id: pokemonData.data.id, // l'ID du pokemon
-            image:
-              pokemonData.data.sprites.other.home.front_default ||
-              pokemonData.data.sprites.other.dream_world.front_default ||
-              pokemonData.data.sprites.front_default, // Ajouter l'url de l'image
-            types: pokemonData.data.types, // Ajouter les types du pokemon
-            stats: pokemonData.data.stats, // Ajouter les valeurs statistiques du pokemon
-            height: pokemonData.data.height, // Ajouter la taille du pokemon
-            weight: pokemonData.data.weight, // Ajouter le poids du pokemon
-          };
-        })
-      );
-
-      setPokemonsList(detailedPokemons);
-    };
-
-    getPokemonsList();
+    getPokemonsWithDetailsForPage(currentUrl);
   }, [currentUrl]);
+
+  // Fonction pour récupérer les pokémons par page avec ses détails
+  async function getPokemonsWithDetailsForPage(currentUrl: string) {
+    // Appel API : { count, next, previous, results: { name, url } }
+    const pokemonsList = await api.getPokemonsForPage(currentUrl);
+    setCount(pokemonsList.count);
+    setNextUrl(pokemonsList.next);
+    setPreviousUrl(pokemonsList.previous);
+
+    // Appel API : { ...pokemon, id, image, types, stats, height, weight }
+    const detailedPokemons = await api.getPokemonDetailsForPage(pokemonsList);
+    setPokemonsList(detailedPokemons);
+  }
 
   return (
     <>
