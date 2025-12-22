@@ -47,14 +47,14 @@ export default function Header({
           </h1>
         </Link>
 
-        <div className="is-flex is-justify-content-end">
+        {/* <div className="is-flex is-justify-content-end">
           <nav className="buttons">
             <a href="#">Sign up</a>
             <a href="#" className="button">
               Login
             </a>
           </nav>
-        </div>
+        </div> */}
       </div>
 
       <SearchBar

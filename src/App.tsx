@@ -16,6 +16,15 @@ function App() {
   // Variable d'état qui stock les pokémons
   const [pokemonsList, setPokemonsList] = useState<IPokemonList[]>([]);
 
+  // Variable d'état qui stock le nombre total de pokémons
+  const [count, setCount] = useState(0);
+
+  // Variable d'état qui stock la valeur de l'input search
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Variable d'état qui stock les pokémons filtrés
+  const [filteredPokemons, setFilteredPokemons] = useState<IPokemonList[]>([]);
+
   // Récupérer les types par appel API au chargement de la page
   useEffect(() => {
     getTypes();
@@ -27,15 +36,6 @@ function App() {
     const results = await api.getTypes();
     setTypes(results);
   }
-
-  // Variable d'état qui stock le nombre total de pokémons
-  const [count, setCount] = useState(0);
-
-  // Variable d'état qui stock la valeur de l'input search
-  const [searchTerm, setSearchTerm] = useState("");
-
-  // Variable d'état qui stock les pokémons filtrés
-  const [filteredPokemons, setFilteredPokemons] = useState<IPokemonList[]>([]);
 
   return (
     <>
