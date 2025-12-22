@@ -1,35 +1,85 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import api from "./services/api";
+import "./App.css";
+import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
+import { useEffect, useState } from "react";
+import { IPokemonList, IType } from "./@types";
+import HomePage from "./pages/HomePage";
+import { Routes, Route } from "react-router";
+import TypePage from "./pages/TypePage";
+import ResultsPage from "./pages/ResultsPage";
 
 function App() {
-  const [count, setCount] = useState(0)
+  // Variable d'état qui stock tous les 'types' de pokémons
+  const [types, setTypes] = useState<IType[]>([]);
+
+  // Variable d'état qui stock les pokémons
+  const [pokemonsList, setPokemonsList] = useState<IPokemonList[]>([]);
+
+  // Variable d'état qui stock le nombre total de pokémons
+  const [count, setCount] = useState(0);
+
+  // Variable d'état qui stock la valeur de l'input search
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Variable d'état qui stock les pokémons filtrés
+  const [filteredPokemons, setFilteredPokemons] = useState<IPokemonList[]>([]);
+
+  // Récupérer les types par appel API au chargement de la page
+  useEffect(() => {
+    getTypes();
+  }, []);
+
+  // Fonction pour récupérer toutes les types
+  async function getTypes() {
+    // Appel API : ...results: {name, url}
+    const results = await api.getTypes();
+    setTypes(results);
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header
+        types={types}
+        pokemonsList={pokemonsList}
+        setFilteredPokemons={setFilteredPokemons}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        setCount={setCount}
+      />
+
+      <main>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                pokemonsList={pokemonsList}
+                setPokemonsList={setPokemonsList}
+                count={count}
+                setCount={setCount}
+              />
+            }
+          />
+          <Route path="/type/:id" element={<TypePage />} />
+
+          {searchTerm && (
+            <Route
+              path="/results"
+              element={
+                <ResultsPage
+                  filteredPokemons={filteredPokemons}
+                  count={count}
+                />
+              }
+            />
+          )}
+        </Routes>
+      </main>
+
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
