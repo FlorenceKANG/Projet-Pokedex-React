@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   preview: {
-    host: true,
+    // @ts-expect-error Vite 6 types missing allowedHosts
+    allowedHosts: "all",
   },
 });
