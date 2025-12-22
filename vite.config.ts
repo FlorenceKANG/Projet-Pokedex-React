@@ -5,6 +5,6 @@ export default defineConfig({
   plugins: [react()],
   preview: {
     // @ts-expect-error Vite 6 types missing allowedHosts
-    allowedHosts: "all",
+    allowedHosts: ["projet-pokedex-react.onrender.com"],
   },
 });
